@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -98,6 +100,10 @@ class LoginFragment : Fragment() {
 
     private fun onLoginSucces() {
         Toast.makeText(requireContext(), "logged in", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(
+            R.id.action_loginFragment_to_userMenuFragment,
+            bundleOf("username" to loginUsername)
+        )
     }
 
     private fun onLoginError() {
