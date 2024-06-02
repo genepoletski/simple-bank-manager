@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="greeting_message">Welcome %1$s</string>
+    <string name="view_balance">view balance</string>
+    <string name="transfer_funds">transfer funds</string>
+    <string name="calculate_exchange">calculate exchange</string>
+    <string name="pay_bills">pay bills</string>
+</resources>
