@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="username" />
+            android:hint="@string/username" />
 
         <EditText
             android:id="@+id/loginPassword"
@@ -30,15 +30,12 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="numberPassword"
-            android:hint="password" />
+            android:hint="@string/password" />
 
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="log in" />
+            android:text="@string/log_in" />
     </LinearLayout>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
