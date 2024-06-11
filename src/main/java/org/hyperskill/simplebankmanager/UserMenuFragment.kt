@@ -5,12 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
+private const val DEFAULT_BALANCE = 100.00
 
 /**
  * A simple [Fragment] subclass.
@@ -21,9 +28,13 @@ class UserMenuFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
     private var username = "User"
+    private var balance = DEFAULT_BALANCE
 
     private lateinit var welcomeTextView: TextView
+    private lateinit var viewBalanceButton: Button
+    private lateinit var transferFundsButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +56,41 @@ class UserMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val greetingMessage = getString(R.string.greeting_message, username)
+        /* TODO: This is a workaround. It's not great that we add AppCompatActivity dependency
+            to the Fragment. Consider using Fragment Result API and Bundle to pass data
+            between Activity and Fragment */
+        val intent = (view.context as AppCompatActivity).intent
+        intent.extras?.let {
+            balance = it.getDouble("balance")
+        }
+
+        setFragmentResultListener("transferFund") { _, result ->
+            balance = result.getDouble("balance")
+        }
+
         welcomeTextView = view.findViewById(R.id.userMenuWelcomeTextView)
+        viewBalanceButton = view.findViewById(R.id.userMenuViewBalanceButton)
+        transferFundsButton = view.findViewById(R.id.userMenuTransferFundsButton)
+
+        val greetingMessage = getString(R.string.greeting_message, username)
         welcomeTextView.text = greetingMessage
+
+        viewBalanceButton.setOnClickListener { handleViewBalanceButtonClick() }
+        transferFundsButton.setOnClickListener { handleTransferFundsButtonClick() }
+    }
+
+    private fun handleViewBalanceButtonClick() {
+        findNavController().navigate(
+            R.id.action_userMenuFragment_to_viewBalanceFragment,
+            bundleOf("balance" to balance)
+        )
+    }
+
+    private fun handleTransferFundsButtonClick() {
+        findNavController().navigate(
+            R.id.action_userMenuFragment_to_transferFundsFragment,
+            bundleOf("balance" to balance)
+        )
     }
 
     companion object {
